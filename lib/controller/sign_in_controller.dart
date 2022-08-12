@@ -2,15 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../services/auth_service.dart';
-import '../utils/commons.dart';
+import '../utils/utils.dart';
 import '../view/home_view.dart';
 import '../view/sign_up_view.dart';
 
+// Sign in Controller
 class SignInController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
-  bool isLoading = false;
+  RxBool isLoading = false.obs;
 
   bool validate() {
     if (passwordController.text.trim() != '' &&
@@ -22,11 +23,8 @@ class SignInController extends GetxController {
   }
 
   login(BuildContext context) async {
-    await AuthService().login(
-      phoneNumberController.text.trim(),
-      passwordController.text.trim(),
-      context,
-    );
+    await AuthService().login(phoneNumberController.text.trim(),
+        passwordController.text.trim(), context, gotoHome);
   }
 
   gotoHome() {

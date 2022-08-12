@@ -7,7 +7,10 @@ import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Initializing Firbase App
   await Firebase.initializeApp();
+
+  // Entry Point of Application
   runApp(const EPoster());
 }
 
@@ -16,17 +19,22 @@ class EPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get Metrial App Controller
     return GetMaterialApp(
       title: 'E-Poster',
       debugShowCheckedModeBanner: false,
+      // Theme of Application
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+
+      // State Persistance provided by Firebase Authentication
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
+              
               return const HomeView();
             } else if (snapshot.hasError) {
               return SignInView();

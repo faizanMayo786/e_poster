@@ -18,6 +18,7 @@ class SignInView extends GetView<SignInController> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          //Text Field
           const Padding(
             padding: EdgeInsets.all(12.0),
             child: Text(
@@ -27,6 +28,7 @@ class SignInView extends GetView<SignInController> {
               ),
             ),
           ),
+          //Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -35,6 +37,7 @@ class SignInView extends GetView<SignInController> {
               textInputType: TextInputType.emailAddress,
             ),
           ),
+          //Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -44,17 +47,31 @@ class SignInView extends GetView<SignInController> {
               obscureText: true,
             ),
           ),
+          // Login Button
           CustomButton(
             onTap: () async {
+              controller.isLoading.value = true;
               if (controller.validate()) {
                 await controller.login(context);
+
                 if (FirebaseAuth.instance.currentUser != null) {
                   controller.gotoHome();
                 }
               }
+              controller.isLoading.value = false;
             },
-            btnText: 'Sign In',
+            child: controller.isLoading.value
+                ? CircularProgressIndicator.adaptive()
+                : Text(
+                    'Sign In',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
           ),
+          // Goto SignUp Screen
           TextButton(
               onPressed: () {
                 controller.gotoSignUp();

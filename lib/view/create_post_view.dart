@@ -2,12 +2,11 @@ import 'dart:typed_data';
 
 import '../controller/user_controller.dart';
 import '../services/post_service.dart';
-import '../utils/commons.dart';
+import '../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../utils/utils.dart';
 import '../widgets/drawer.dart';
 
 class CreatePostView extends StatefulWidget {
@@ -18,16 +17,19 @@ class CreatePostView extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<CreatePostView> {
+// Local Vairables
   Uint8List? _file;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
+  // Disposing varibales
   @override
   dispose() {
     super.dispose();
     _descriptionController.dispose();
   }
 
+// Posting Blog
   postImage(String uid, String username) async {
     setState(() {
       _isLoading = true;
@@ -60,6 +62,7 @@ class _AddPostScreenState extends State<CreatePostView> {
     }
   }
 
+// Selecting Blog Image
   _selectImage(BuildContext context) {
     return showDialog(
       context: context,
@@ -105,6 +108,7 @@ class _AddPostScreenState extends State<CreatePostView> {
     );
   }
 
+// Clear Blog Image
   void clearImage() {
     setState(() {
       _file = null;
@@ -115,8 +119,11 @@ class _AddPostScreenState extends State<CreatePostView> {
   Widget build(BuildContext context) {
     final controller = Get.put(UserController());
     return _file == null
+        // checking if image is chosen and rendering respectively
         ? Scaffold(
-            appBar: AppBar(title: const Text('Create Blog'),),
+            appBar: AppBar(
+              title: const Text('Create Blog'),
+            ),
             drawer: const CustomDrawer(),
             body: Center(
               child: Column(

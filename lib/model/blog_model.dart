@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// Blog Model
 class Blog {
   Blog({
     required this.title,

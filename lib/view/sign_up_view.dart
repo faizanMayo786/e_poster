@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import '/utils/commons.dart';
+import '../utils/utils.dart';
 import '/widgets/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,6 +13,18 @@ class SignUpView extends GetView<SignUpController> {
   @override
   final controller = Get.put(SignUpController());
   SignUpView({Key? key}) : super(key: key);
+
+  // Create Account Method
+  Future<void> createAccount(BuildContext context) async {
+    if (controller.validate()) {
+      bool exist = !(await controller.isUserExist());
+      if (exist) {
+        print(await controller.validatePhoneNumber(context));
+      } else {
+        snackBar('User Already Exists with the Specified Number.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +42,7 @@ class SignUpView extends GetView<SignUpController> {
               ),
             ),
           ),
+          // Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -38,6 +51,7 @@ class SignUpView extends GetView<SignUpController> {
               textInputType: TextInputType.emailAddress,
             ),
           ),
+          // Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -46,6 +60,7 @@ class SignUpView extends GetView<SignUpController> {
               textInputType: TextInputType.emailAddress,
             ),
           ),
+          // Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -54,6 +69,7 @@ class SignUpView extends GetView<SignUpController> {
               textInputType: TextInputType.emailAddress,
             ),
           ),
+          // Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -63,6 +79,7 @@ class SignUpView extends GetView<SignUpController> {
               obscureText: true,
             ),
           ),
+          // Text Field
           Padding(
             padding: edgeInsets,
             child: TextFieldInput(
@@ -71,22 +88,28 @@ class SignUpView extends GetView<SignUpController> {
               textInputType: TextInputType.emailAddress,
             ),
           ),
-          CustomButton(
-            onTap: () async {
-              if (controller.validate()) {
-                bool exist = !(await controller.isUserExist());
-                if (exist) {
-                  await controller.validatePhoneNumber(context);
-                  if (FirebaseAuth.instance.currentUser != null) {
-                    await controller.addUser();
-                  }
-                } else {
-                  snackBar('User Already Exists with the Specified Number.');
-                }
-              }
-            },
-            btnText: 'Create Account',
+          // Create Account Button
+          Obx(
+            () => CustomButton(
+              // Create Account On Press Method Call
+              onTap: () async {
+                controller.isLoading.value = true;
+                await createAccount(context);
+                controller.isLoading.value = false;
+              },
+              child: controller.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : const Text(
+                      'Create Account',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+            ),
           ),
+          // Goto Login Screen Button
           TextButton(
               onPressed: () {
                 controller.gotoLogin();

@@ -1,9 +1,13 @@
+import 'package:e_poster/model/user_model.dart';
+
 import '../services/auth_service.dart';
-import '../utils/commons.dart';
+import '../utils/utils.dart';
+import '../view/home_view.dart';
 import '../view/sign_in_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+// Signup Controller
 class SignUpController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -11,7 +15,7 @@ class SignUpController extends GetxController {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
-  bool isLoading = false;
+  RxBool isLoading = false.obs;
 
   bool validate() {
     if (emailController.text.trim() != '' &&
@@ -29,18 +33,25 @@ class SignUpController extends GetxController {
     return await AuthService().isUserExists(phoneNumberController.text.trim());
   }
 
-  validatePhoneNumber(BuildContext context) async {
-    await AuthService().phoneSignIn(context, phoneNumberController.text.trim());
+  Future<bool> validatePhoneNumber(BuildContext context) async {
+    UserModel user = UserModel(
+      email: emailController.text.trim(),
+      firstName: firstNameController.text.trim(),
+      lastName: lastNameController.text.trim(),
+      password: passwordController.text.trim(),
+      phoneNumber: phoneNumberController.text.trim(),
+    );
+    return await AuthService().phoneSignIn(
+      context,
+      phoneNumberController.text.trim(),
+      user,
+      gotoHome,
+      true,
+    );
   }
 
-  addUser() async {
-    await AuthService().addUserToDB(
-      firstNameController.text,
-      lastNameController.text.trim(),
-      emailController.text.trim(),
-      passwordController.text.trim(),
-      phoneNumberController.text.trim(),
-    );
+  gotoHome() {
+    Get.off(const HomeView());
   }
 
   gotoLogin() {

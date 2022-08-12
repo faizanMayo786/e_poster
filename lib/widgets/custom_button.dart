@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Reuseable Custom Button
 class CustomButton extends StatelessWidget {
-  final String btnText;
+  final Widget child;
   final VoidCallback onTap;
   final Color btnColor;
   final Color onPrimaryColor;
@@ -9,7 +10,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     required this.onTap,
-    required this.btnText,
+    required this.child,
     this.btnColor = Colors.blue,
     this.onPrimaryColor = Colors.blueAccent,
   }) : super(key: key);
@@ -30,14 +31,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Text(
-            btnText,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: child,
         ),
       ),
     );

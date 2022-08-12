@@ -1,6 +1,6 @@
 
 import 'dart:convert';
-
+// User Model
 class UserModel {
   UserModel({
     required this.firstName,

@@ -6,6 +6,7 @@ import '../view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// Reusable Code of Drawer
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
 
@@ -28,18 +29,21 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.add_a_photo),
             title: const Text('Create Post'),
             onTap: () {
-              Get.to(const CreatePostView());
+              Get.off(const CreatePostView());
             },
           ),
           ListTile(
+            leading: const Icon(Icons.view_agenda),
             title: const Text('View All Post'),
             onTap: () {
-              Get.to(const HomeView());
+              Get.off(const HomeView());
             },
           ),
           ListTile(
+            leading: const Icon(Icons.logout),
             title: const Text('Sign Out'),
             onTap: () async {
               await AuthService().signOut();

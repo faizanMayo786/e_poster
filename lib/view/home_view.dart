@@ -10,10 +10,14 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //AppBar
         appBar: AppBar(
           title: const Text('Blogs'),
         ),
+        // Drawer
         drawer: const CustomDrawer(),
+
+        // Fetching Post Stream from Firebase
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('posts').snapshots(),
           builder: (context,
@@ -67,7 +71,7 @@ class HomeView extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                               Container(
+                              Container(
                                 alignment: Alignment.centerLeft,
                                 width: MediaQuery.of(context).size.width,
                                 padding: const EdgeInsets.only(top: 1),
